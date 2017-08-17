@@ -32,7 +32,7 @@ Public Class frmMain
                     mAns = MsgBox("Unable to find Destination " & lblPath.Text, MsgBoxStyle.AbortRetryIgnore)
                     Select Case mAns
                         Case vbRetry
-                            Call DoBackup()
+                            Call DoWinBackup()
                         Case vbAbort
                             Me.Close()
                         Case vbIgnore
@@ -41,11 +41,11 @@ Public Class frmMain
                     End Select
                 Case 53
                     mAns = MsgBox("Unable to find Source Database " & DBLastLoc, MsgBoxStyle.RetryCancel)
-                    If mAns = vbRetry Then Call DoBackup()
+                    If mAns = vbRetry Then Call DoWinBackup()
                     If mAns = vbCancel Then Me.Close()
                 Case 57
                     mAns = MsgBox("Destination File is currently in Use.", MsgBoxStyle.RetryCancel)
-                    If mAns = vbRetry Then Call DoBackup()
+                    If mAns = vbRetry Then Call DoWinBackup()
                     If mAns = vbCancel Then Me.Close()
                 Case 5
                     MsgBox("Operation Canceled per your request.")
