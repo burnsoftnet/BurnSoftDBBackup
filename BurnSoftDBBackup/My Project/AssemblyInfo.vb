@@ -11,8 +11,8 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("BurnSoft Database Backup")> 
 <Assembly: AssemblyDescription("BurnSoft Database Backup Utility")> 
 <Assembly: AssemblyCompany("BurnSoft ( www.burnsoft.net )")> 
-<Assembly: AssemblyProduct("BurnSoft Database Backup")> 
-<Assembly: AssemblyCopyright("Copyright © BurnSoft 2009 - 2013")> 
+<Assembly: AssemblyProduct("BurnSoft Database Backup")>
+<Assembly: AssemblyCopyright("Copyright © BurnSoft 2009 - 2017")>
 <Assembly: AssemblyTrademark("BurnSoft, www.burnsoft.net, www.burnsoft.org")> 
 
 <Assembly: ComVisible(False)>

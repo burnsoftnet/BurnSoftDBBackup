@@ -22,12 +22,23 @@ Module modFileCleanup
     Const MAXFILESLEFT = 6
     Const SIMULATE = False
     Const DoMSG = False
+    ''' <summary>
+    ''' Get the date of last modified form the file that was passed
+    ''' </summary>
+    ''' <param name="strFile"></param>
+    ''' <returns></returns>
     Private Function ShowFileInfo(ByVal strFile)
         Dim fso, f
         fso = CreateObject("Scripting.FileSystemObject")
         f = fso.GetFile(strFile)
         Return FormatDateTime(f.DateLastModified)
     End Function
+    ''' <summary>
+    ''' delete the the selected file, but check to make sure there are mote than 6 left in the structure
+    ''' if there are 5 backups and this was one of those 5, then it will abort the delete
+    ''' </summary>
+    ''' <param name="strFile"></param>
+    ''' <returns></returns>
     Private Function DeleteOldFile(ByVal strFile)
         Dim bAns As Boolean = False
         Dim fso
@@ -40,7 +51,13 @@ Module modFileCleanup
         bAns = True
         Return bAns
     End Function
-    Private Function GetCreatedDate(ByVal strFileCreated) as String
+    ''' <summary>
+    ''' get the date created to determin if the file is old enough to delete, then it will
+    ''' put it in a string array
+    ''' </summary>
+    ''' <param name="strFileCreated"></param>
+    ''' <returns></returns>
+    Private Function GetCreatedDate(ByVal strFileCreated) As String
         Dim sAns As String = ""
         Dim GetCurrentDate As String
         Dim CurrentMonth As String
@@ -60,6 +77,10 @@ Module modFileCleanup
         End If
         Return sAns
     End Function
+    ''' <summary>
+    ''' get the files from the root directory to get the files that should be deleted
+    ''' </summary>
+    ''' <returns></returns>
     Private Function GetFileList()
         Try
             Dim fsof, fi, flf, sf, fc
@@ -92,6 +113,10 @@ Module modFileCleanup
         End Try
         Return Nothing
     End Function
+    ''' <summary>
+    ''' count the files in the rootdirectory
+    ''' </summary>
+    ''' <returns></returns>
     Private Function FileCount() As Integer
         Dim fsof, fi, flf, sf, fc
         Dim strFileSplit
@@ -108,6 +133,9 @@ Module modFileCleanup
         Next
         Return i
     End Function
+    ''' <summary>
+    ''' get the setttings for this app for the app that this application supports
+    ''' </summary>
     Private Sub GetSettings()
         Dim BSReg As New BurnSoft.GlobalClasses.BSRegistry
         BSReg.DefaultRegPath = RegKey
@@ -115,6 +143,9 @@ Module modFileCleanup
         DaysOld = BSReg.GetDaysOld
         IsEnabled = BSReg.UseTracking
     End Sub
+    ''' <summary>
+    ''' start deleting files for cleanup
+    ''' </summary>
     Public Sub DoDelete()
         strFileArr = Split(FileType, ",")
         strFileType = UBound(strFileArr)

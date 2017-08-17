@@ -56,12 +56,19 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>7A8EC588D285191AC5FC7F2E2C6E784F539770C2</ManifestCertificateThumbprint>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -139,7 +146,6 @@
     <None Include="Resources\database_backup_48_x_48.ico" />
     <None Include="Resources\database_backup_32_x_32.ico" />
     <None Include="app.config" />
-    <Content Include="DBBackup.exe.manifest.txt" />
     <None Include="Resources\u-Winxpicons_%28Winxpicons%29_Disk_2.ico" />
   </ItemGroup>
   <ItemGroup>
