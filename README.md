@@ -24,5 +24,9 @@ Example:
   
   ## Release Log
   
-  ###v4.10.357.8765
+### v4.11
+- Set to use .Net v4.7.2
+- Code cleanup
+
+  ### v4.10.357.8765
   - Initial Production release, also start of Open Source Init
