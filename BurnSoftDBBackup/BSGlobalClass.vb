@@ -9,7 +9,7 @@ Namespace BurnSoft.GlobalClasses
     ''' <summary>
     ''' Class BSRegistry.
     ''' </summary>
-    Public Class BSRegistry
+    Public Class BsRegistry
         ''' <summary>
         ''' The default reg path
         ''' </summary>
@@ -20,7 +20,7 @@ Namespace BurnSoft.GlobalClasses
         ''' </summary>
         ''' <param name="strValue">The string value.</param>
         Private Sub CreateSubKey(ByVal strValue As String)
-            Microsoft.Win32.Registry.CurrentUser.CreateSubKey(strValue)
+            Registry.CurrentUser.CreateSubKey(strValue)
         End Sub
         ''' <summary>
         ''' Regs the sub key exists.
@@ -28,11 +28,11 @@ Namespace BurnSoft.GlobalClasses
         ''' <param name="strValue">The string value.</param>
         ''' <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         Private Function RegSubKeyExists(ByVal strValue As String) As Boolean
-            Dim bAns As Boolean = False
+            Dim bAns As Boolean
             Try
-                Dim MyReg As RegistryKey
-                MyReg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(strValue, True)
-                If MyReg Is Nothing Then
+                Dim myReg As RegistryKey
+                myReg = Registry.CurrentUser.OpenSubKey(strValue, True)
+                If myReg Is Nothing Then
                     bAns = False
                 Else
                     bAns = True
@@ -50,22 +50,21 @@ Namespace BurnSoft.GlobalClasses
         ''' <param name="strDefault">The string default.</param>
         ''' <returns>System.String.</returns>
         Private Function GetRegSubKeyValue(ByVal strKey As String, ByVal strValue As String, ByVal strDefault As String) As String
-            Dim sAns As String = ""
-            Dim strMsg As String = ""
-            Dim MyReg As RegistryKey
+            Dim sAns As String
+            Dim myReg As RegistryKey
             Try
                 If RegSubKeyExists(strKey) Then
-                    MyReg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(strKey, True)
-                    If Len(MyReg.GetValue(strValue)) > 0 Then
-                        sAns = MyReg.GetValue(strValue)
+                    myReg = Registry.CurrentUser.OpenSubKey(strKey, True)
+                    If Len(myReg.GetValue(strValue)) > 0 Then
+                        sAns = myReg.GetValue(strValue)
                     Else
-                        MyReg.SetValue(strValue, strDefault)
+                        myReg.SetValue(strValue, strDefault)
                         sAns = strDefault
                     End If
                 Else
                     Call CreateSubKey(strKey)
-                    MyReg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(strKey, True)
-                    MyReg.SetValue(strValue, strDefault)
+                    myReg = Registry.CurrentUser.OpenSubKey(strKey, True)
+                    myReg.SetValue(strValue, strDefault)
                     sAns = strDefault
                 End If
             Catch ex As Exception
@@ -77,13 +76,14 @@ Namespace BurnSoft.GlobalClasses
         ''' Settingses the exists.
         ''' </summary>
         ''' <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+' ReSharper disable once UnusedMember.Local
         Private Function SettingsExists() As Boolean
-            Dim bAns As Boolean = False
-            Dim MyReg As RegistryKey
+            Dim bAns As Boolean
+            Dim myReg As RegistryKey
             Dim strValue As String = DefaultRegPath & "\Settings"
             On Error Resume Next
-            MyReg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(strValue, True)
-            If MyReg Is Nothing Then
+            myReg = Registry.CurrentUser.OpenSubKey(strValue, True)
+            If myReg Is Nothing Then
                 bAns = False
             Else
                 bAns = True
@@ -95,7 +95,7 @@ Namespace BurnSoft.GlobalClasses
         ''' </summary>
         ''' <returns>System.String.</returns>
         Public Function GetLastWorkingDir() As String
-            Dim sAns As String = ""
+            Dim sAns As String
             Dim strValue As String = DefaultRegPath & "\Settings"
             sAns = GetRegSubKeyValue(strValue, "LastPath", "")
             Return sAns
@@ -104,8 +104,8 @@ Namespace BurnSoft.GlobalClasses
         ''' Gets the database path.
         ''' </summary>
         ''' <returns>System.String.</returns>
-        Public Function GetDBPath() As String
-            Dim sAns As String = ""
+        Public Function GetDbPath() As String
+            Dim sAns As String
             sAns = GetRegSubKeyValue(DefaultRegPath, "Database", DBName)
             Return sAns
         End Function
@@ -114,7 +114,7 @@ Namespace BurnSoft.GlobalClasses
         ''' </summary>
         ''' <returns>System.Int64.</returns>
         Public Function GetDaysOld() As Long
-            Dim lAns As Long = 0
+            Dim lAns As Long
             lAns = CLng(GetRegSubKeyValue(DefaultRegPath & "\Settings", "TrackHistoryDays", 30))
             Return lAns
         End Function
@@ -123,7 +123,7 @@ Namespace BurnSoft.GlobalClasses
         ''' </summary>
         ''' <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         Public Function UseTracking() As Boolean
-            Dim bAns As Boolean = True
+            Dim bAns As Boolean
             bAns = CBool(GetRegSubKeyValue(DefaultRegPath & "\Settings", "TrackHistory", True))
             Return bAns
         End Function
@@ -132,7 +132,7 @@ Namespace BurnSoft.GlobalClasses
         ''' </summary>
         ''' <returns>System.Object.</returns>
         Public Function GetApplicationPath()
-            Dim sAns As String = ""
+            Dim sAns As String
             sAns = GetRegSubKeyValue(DefaultRegPath, "Path", Application.StartupPath) & "\"
             Return sAns
         End Function
@@ -142,27 +142,27 @@ Namespace BurnSoft.GlobalClasses
         ''' <param name="sKey">The s key.</param>
         ''' <param name="sValue">The s value.</param>
         Public Sub SaveRegSetting(ByVal sKey As String, ByVal sValue As String)
-            Dim MyReg As RegistryKey
+            Dim myReg As RegistryKey
             Dim strValue As String = DefaultRegPath & "Settings"
             If Not RegSubKeyExists(strValue) Then Call CreateSubKey(strValue)
-            MyReg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(strValue, RegistryKeyPermissionCheck.Default)
-            MyReg.SetValue(sKey, sValue)
-            MyReg.Close()
+            myReg = Registry.CurrentUser.CreateSubKey(strValue, RegistryKeyPermissionCheck.Default)
+            myReg.SetValue(sKey, sValue)
+            myReg.Close()
         End Sub
 #End Region
     End Class
     ''' <summary>
     ''' Class BSFileSystem.
     ''' </summary>
-    Public Class BSFileSystem
+    Public Class BsFileSystem
         ''' <summary>
         ''' Logs the file.
         ''' </summary>
         ''' <param name="strPath">The string path.</param>
         ''' <param name="strMessage">The string message.</param>
         Public Sub LogFile(ByVal strPath As String, ByVal strMessage As String)
-            Dim SendMessage As String = DateTime.Now & vbTab & strMessage
-            Call AppendToFile(strPath, SendMessage)
+            Dim sendMessage As String = DateTime.Now & vbTab & strMessage
+            Call AppendToFile(strPath, sendMessage)
         End Sub
         ''' <summary>
         ''' Deletes the file.
@@ -276,7 +276,7 @@ Namespace BurnSoft.GlobalClasses
         ''' <param name="strFile">The string file.</param>
         ''' <returns>System.String.</returns>
         Public Function GetPathOfFile(ByVal strFile As String) As String
-            Dim sAns As String = ""
+            Dim sAns As String
             sAns = Path.GetDirectoryName(strFile)
             Return sAns
         End Function
@@ -286,7 +286,7 @@ Namespace BurnSoft.GlobalClasses
         ''' <param name="strFile">The string file.</param>
         ''' <returns>System.String.</returns>
         Public Function GetExtOfFile(ByVal strFile As String) As String
-            Dim sAns As String = ""
+            Dim sAns As String
             sAns = Path.GetExtension(strFile)
             Return sAns
         End Function
@@ -296,7 +296,7 @@ Namespace BurnSoft.GlobalClasses
         ''' <param name="strFile">The string file.</param>
         ''' <returns>System.String.</returns>
         Public Function GetNameOfFile(ByVal strFile As String) As String
-            Dim sAns As String = ""
+            Dim sAns As String
             sAns = Path.GetFileName(strFile)
             Return sAns
         End Function
@@ -306,7 +306,7 @@ Namespace BurnSoft.GlobalClasses
         ''' <param name="strFile">The string file.</param>
         ''' <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         Public Function FileHasExtension(ByVal strFile As String) As Boolean
-            Dim bAns As Boolean = False
+            Dim bAns As Boolean
             bAns = Path.HasExtension(strFile)
             Return bAns
         End Function
@@ -315,8 +315,8 @@ Namespace BurnSoft.GlobalClasses
         ''' </summary>
         ''' <param name="strFile">The string file.</param>
         ''' <returns>System.String.</returns>
-        Public Function GetNameOfFileWOExt(ByVal strFile As String) As String
-            Dim sAns As String = ""
+        Public Function GetNameOfFileWoExt(ByVal strFile As String) As String
+            Dim sAns As String
             sAns = Path.GetFileNameWithoutExtension(strFile)
             Return sAns
         End Function

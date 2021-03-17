@@ -1,27 +1,84 @@
-Module modFileCleanup
-    Dim strFile As String         '-Working File
-    Dim strDateCreated  '-Used to get the Last Time a File was modified /Created
-    Dim strDateOld      '-Used to get the value of todaydate minus tthe DaysOld Constant
-    Dim CurrentFile     '-Working File
-    Dim MyFolderList    '-Used to Split the folders in an array
-    Dim x               '-Count Folder List array
-    Dim strWorkingDir   '-Current Working Directory
-    Dim strDateCount    '- To Count files that arex days old.  MOstly used for reporting
-    Dim Days2Old        '-Used to Convert the Constant Daysold into a negative
-    Dim strFileType     '-Grab the Array from DayOld
-    Dim strFileArr      '-File Type Array
-    Dim ArrayFiles      '-Array of Files Deleted
-    Dim SplitArray
-    Dim strNetIQ
-    Dim IsEnabled As Boolean
+''' <summary>
+''' Module File Clean up
+''' </summary>
+Module ModFileCleanup
+    ''' <summary>
+    ''' The string file Working File
+    ''' </summary>
+    Dim _strFile As String
+    ''' <summary>
+    ''' The string date created, Used to get the Last Time a File was modified /Created
+    ''' </summary>
+    Dim _strDateCreated
+    ''' <summary>
+    ''' The string date old Used to get the value of todaydate minus tthe DaysOld Constant
+    ''' </summary>
+' ReSharper disable once NotAccessedField.Local
+    Dim _strDateOld
+    ''' <summary>
+    ''' The current file
+    ''' </summary>
+    Dim _currentFile
+    ''' <summary>
+    ''' The string date count, Current Working Directory
+    ''' </summary>
+    Dim _strDateCount
+    ''' <summary>
+    ''' The days2 old, To Count files that arex days old.  MOstly used for reporting
+    ''' </summary>
+    Dim _days2Old
+    ''' <summary>
+    ''' The string file type, Grab the Array from DayOld
+    ''' </summary>
+    Dim _strFileType
+    ''' <summary>
+    ''' The string file arr, File Type Array
+    ''' </summary>
+    Dim _strFileArr
+    ''' <summary>
+    ''' Array of Files Deleted
+    ''' </summary>
+    Dim _arrayFiles
+    ''' <summary>
+    ''' The split array
+    ''' </summary>
+    Dim _splitArray
+    ''' <summary>
+    ''' The string net iq
+    ''' </summary>
+    Dim _strNetIq
+    ''' <summary>
+    ''' The is enabled
+    ''' </summary>
+    Dim _isEnabled As Boolean
+    ''' <summary>
+    ''' The days old
+    ''' </summary>
     Public DaysOld As Integer
+    ''' <summary>
+    ''' The root directory
+    ''' </summary>
     Public RootDirectory As String
+    ''' <summary>
+    ''' The do over
+    ''' </summary>
     Public DoOver As Boolean
+    ''' <summary>
+    ''' 
+    ''' </summary>
     Const FileType = "bak"
-    Const DeleteAllFiles = "n" 'DeleteAllFiles without DateCheck
-    Const MAXFILESLEFT = 6
-    Const SIMULATE = False
-    Const DoMSG = False
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    Const Maxfilesleft = 6
+    ''' <summary>
+    ''' simulate
+    ''' </summary>
+    Const Simulate = False
+    ''' <summary>
+    ''' Do messages
+    ''' </summary>
+    Const DoMsg = False
     ''' <summary>
     ''' Get the date of last modified form the file that was passed
     ''' </summary>
@@ -46,8 +103,8 @@ Module modFileCleanup
         fso = CreateObject("Scripting.FileSystemObject")
         strDeletedFile = fso.GetFile(strFile)
         DeleteOldFile = bAns
-        If FileCount <= MAXFILESLEFT Then Exit Function
-        If Not SIMULATE Then strDeletedFile.Delete()
+        If FileCount <= Maxfilesleft Then Exit Function
+        If Not Simulate Then strDeletedFile.Delete()
         bAns = True
         Return bAns
     End Function
@@ -58,21 +115,21 @@ Module modFileCleanup
     ''' <param name="strFileCreated"></param>
     ''' <returns></returns>
     Private Function GetCreatedDate(ByVal strFileCreated) As String
-        Dim sAns As String = ""
-        Dim GetCurrentDate As String
-        Dim CurrentMonth As String
-        strFile = RootDirectory & strFileCreated
-        strDateCreated = ShowFileInfo(strFile)
-        GetCurrentDate = FormatDateTime(strDateCreated, 2)
-        strDateCreated = GetCurrentDate
-        GetCurrentDate = Now.Date
-        Days2Old = 0 - DaysOld
-        strDateOld = DateAdd("d", Days2Old, GetCurrentDate)
-        CurrentMonth = DateDiff("d", strDateCreated, GetCurrentDate)
-        If CurrentMonth >= DaysOld Then
-            If DeleteOldFile(strFile) Then
-                strDateCount = strDateCount + 1
-                ArrayFiles = ArrayFiles + "," + strFile
+        Dim sAns As String
+        Dim getCurrentDate As String
+        Dim currentMonth As String
+        _strFile = RootDirectory & strFileCreated
+        _strDateCreated = ShowFileInfo(_strFile)
+        getCurrentDate = FormatDateTime(_strDateCreated, 2)
+        _strDateCreated = getCurrentDate
+        getCurrentDate = Now.Date
+        _days2Old = 0 - DaysOld
+        _strDateOld = DateAdd("d", _days2Old, getCurrentDate)
+        currentMonth = DateDiff("d", _strDateCreated, getCurrentDate)
+        If currentMonth >= DaysOld Then
+            If DeleteOldFile(_strFile) Then
+                _strDateCount = _strDateCount + 1
+                _arrayFiles = _arrayFiles + "," + _strFile
             End If
         End If
         Return sAns
@@ -92,9 +149,9 @@ Module modFileCleanup
             For Each flf In fc
                 sf &= flf.Name
                 strFileSplit = Split(sf, ".")
-                If strFileSplit(1) = strFileType Then
-                    CurrentFile = sf
-                    Call GetCreatedDate(CurrentFile)
+                If strFileSplit(1) = _strFileType Then
+                    _currentFile = sf
+                    Call GetCreatedDate(_currentFile)
                 End If
                 sf = ""
             Next
@@ -128,7 +185,7 @@ Module modFileCleanup
         For Each flf In fc
             sf = sf & flf.Name
             strFileSplit = Split(sf, ".")
-            If strFileSplit(1) = strFileType Then i = i + 1
+            If strFileSplit(1) = _strFileType Then i = i + 1
             sf = ""
         Next
         Return i
@@ -137,30 +194,30 @@ Module modFileCleanup
     ''' get the setttings for this app for the app that this application supports
     ''' </summary>
     Private Sub GetSettings()
-        Dim BSReg As New BurnSoft.GlobalClasses.BSRegistry
-        BSReg.DefaultRegPath = RegKey
-        RootDirectory = FormatDirectory(BSReg.GetLastWorkingDir)
-        DaysOld = BSReg.GetDaysOld
-        IsEnabled = BSReg.UseTracking
+        Dim bsReg As New BurnSoft.GlobalClasses.BsRegistry
+        bsReg.DefaultRegPath = RegKey
+        RootDirectory = FormatDirectory(bsReg.GetLastWorkingDir)
+        DaysOld = bsReg.GetDaysOld
+        _isEnabled = bsReg.UseTracking
     End Sub
     ''' <summary>
     ''' start deleting files for cleanup
     ''' </summary>
     Public Sub DoDelete()
-        strFileArr = Split(FileType, ",")
-        strFileType = UBound(strFileArr)
+        _strFileArr = Split(FileType, ",")
+        _strFileType = UBound(_strFileArr)
         Call GetSettings()
-        If Not IsEnabled Then Exit Sub
-        strDateCount = 0
-        strFileType = FileType
+        If Not _isEnabled Then Exit Sub
+        _strDateCount = 0
+        _strFileType = FileType
         Call GetFileList()
-        If DoMSG Then
-            If strDateCount = 0 Then
+        If DoMsg Then
+            If _strDateCount = 0 Then
                 MsgBox("0 Files were deleted!")
             Else
-                SplitArray = Replace(ArrayFiles, ",", Chr(10) & Chr(13))
-                strNetIQ = strDateCount & " Files were deleted!" & Chr(10) & Chr(13) & "The Following Files Where Deleted:" & Chr(10) & Chr(13) & SplitArray
-                MsgBox(strNetIQ)
+                _splitArray = Replace(_arrayFiles, ",", Chr(10) & Chr(13))
+                _strNetIq = _strDateCount & " Files were deleted!" & Chr(10) & Chr(13) & "The Following Files Where Deleted:" & Chr(10) & Chr(13) & _splitArray
+                MsgBox(_strNetIq)
             End If
         End If
     End Sub

@@ -22,9 +22,9 @@ Module modGlobal
         MyLogFile = System.Configuration.ConfigurationManager.AppSettings("LogFilename")
         AppABV = System.Configuration.ConfigurationManager.AppSettings("AppABV")
         DoAutoBackup = GetCommand("auto", "Bool")
-        Dim Obj As New BurnSoft.GlobalClasses.BSRegistry
+        Dim Obj As New BurnSoft.GlobalClasses.BsRegistry
         Obj.DefaultRegPath = RegKey
-        DBLastLoc = Obj.GetDBPath
+        DBLastLoc = Obj.GetDbPath
     End Sub
     ''' <summary>
     ''' sort through the command switch to find the setting that you are looking for to see if it was
@@ -88,7 +88,7 @@ Module modGlobal
     ''' <param name="sForm"></param>
     ''' <param name="sPro"></param>
     Public Sub UpdateLog(ByVal sMsg As String, ByVal sForm As String, ByVal sPro As String)
-        Dim Obj As New BurnSoft.GlobalClasses.BSFileSystem
+        Dim Obj As New BurnSoft.GlobalClasses.BsFileSystem
         Dim Msg As String = sMsg & "::" & sForm & "." & sPro
         Call Obj.LogFile(MyLogFile, Msg)
     End Sub

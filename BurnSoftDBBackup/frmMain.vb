@@ -1,5 +1,10 @@
-Public Class frmMain
-    Const BACKUPMODE = "win"  'win,old
+Imports DBBackup.BurnSoft.GlobalClasses
+Imports Microsoft.VisualBasic.FileIO
+
+''' <summary>
+'''  Main Form
+''' </summary>
+Public Class FrmMain
     ''' <summary>
     ''' new method of backup files using windows
     ''' </summary>
@@ -11,21 +16,21 @@ Public Class frmMain
             Dim strSource As String = DBLastLoc
             Dim sFile As String = NewFileName()
             Dim sDestFile As String = FormatDirectory(lblPath.Text) & sFile
-            My.Computer.FileSystem.CopyFile(strSource, sDestFile, FileIO.UIOption.AllDialogs, FileIO.UICancelOption.ThrowException)
-            Dim Obj As New BurnSoft.GlobalClasses.BSRegistry
-            Obj.DefaultRegPath = RegKey
-            Obj.SaveRegSetting("LastPath", lblPath.Text)
-            Obj.SaveRegSetting("LastFile", sFile)
-            Obj.SaveRegSetting("Successful", Now)
+            My.Computer.FileSystem.CopyFile(strSource, sDestFile, UIOption.AllDialogs, UICancelOption.ThrowException)
+            Dim obj As New BsRegistry
+            obj.DefaultRegPath = RegKey
+            obj.SaveRegSetting("LastPath", lblPath.Text)
+            obj.SaveRegSetting("LastFile", sFile)
+            obj.SaveRegSetting("Successful", Now)
             'ProgressBar1.Visible = False
             If Not DoAutoBackup Then MsgBox("Backup Completed Successfully!" & Chr(10) & "Backup File Name: " & sFile, MsgBoxStyle.OkOnly)
-            Global.System.Windows.Forms.Application.Exit()
+            Application.Exit()
         Catch ex As Exception
-            Dim ObjFS As New BurnSoft.GlobalClasses.BSFileSystem
+            Dim objFs As New BsFileSystem
             Dim strform As String = "frmMain"
             Dim strProcedure As String = "DoWinBackup"
             Dim sMessage As String = strform & "." & strProcedure & "::" & Err.Number & "::" & ex.Message.ToString()
-            ObjFS.LogFile(MyLogFile, sMessage)
+            objFs.LogFile(MyLogFile, sMessage)
             Dim mAns As String
             Select Case Err.Number
                 Case 76
@@ -34,7 +39,7 @@ Public Class frmMain
                         Case vbRetry
                             Call DoWinBackup()
                         Case vbAbort
-                            Me.Close()
+                            Close()
                         Case vbIgnore
                             Call NewPath()
                             Call DoWinBackup()
@@ -42,11 +47,11 @@ Public Class frmMain
                 Case 53
                     mAns = MsgBox("Unable to find Source Database " & DBLastLoc, MsgBoxStyle.RetryCancel)
                     If mAns = vbRetry Then Call DoWinBackup()
-                    If mAns = vbCancel Then Me.Close()
+                    If mAns = vbCancel Then Close()
                 Case 57
                     mAns = MsgBox("Destination File is currently in Use.", MsgBoxStyle.RetryCancel)
                     If mAns = vbRetry Then Call DoWinBackup()
-                    If mAns = vbCancel Then Me.Close()
+                    If mAns = vbCancel Then Close()
                 Case 5
                     MsgBox("Operation Canceled per your request.")
                 Case Else
@@ -139,7 +144,7 @@ Public Class frmMain
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub btnPath_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPath.Click
+    Private Sub btnPath_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnPath.Click
         Call NewPath()
     End Sub
     ''' <summary>
@@ -147,12 +152,12 @@ Public Class frmMain
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmMain_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         Call SetINIT()
-        Dim Obj As New BurnSoft.GlobalClasses.BSRegistry
-        Obj.DefaultRegPath = RegKey
-        Me.Text = "BurnSoft " & MainAppName & "DB Backup"
-        lblPath.Text = Obj.GetLastWorkingDir
+        Dim obj As New BsRegistry
+        obj.DefaultRegPath = RegKey
+        Text = $"BurnSoft {MainAppName}DB Backup"
+        lblPath.Text = obj.GetLastWorkingDir
         If Len(lblPath.Text) > 0 Then
             btnBackup.Enabled = True
         Else
@@ -166,25 +171,15 @@ Public Class frmMain
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        Global.System.Windows.Forms.Application.Exit()
+    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+        Application.Exit()
     End Sub
-    '   Sub RunBackers()
-    '  Select Case BACKUPMODE
-    '  Case "win"
-    '  Call DoWinBackup()
-    '  Case "old"
-    '  Call DoBackup()
-    '  Case Else
-    '  Call DoWinBackup()
-    '  End Select
-    '  End Sub
     ''' <summary>
     ''' when the backup button is clicked
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub btnBackup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBackup.Click
+    Private Sub btnBackup_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnBackup.Click
         'Call RunBackers()
         Call DoWinBackup()
     End Sub
@@ -193,11 +188,10 @@ Public Class frmMain
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Private Sub tmrAutoBack_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrAutoBack.Tick
+    Private Sub tmrAutoBack_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrAutoBack.Tick
         btnBackup.Enabled = False
-        'Call RunBackers()
         Call DoWinBackup()
         tmrAutoBack.Enabled = False
-        Global.System.Windows.Forms.Application.Exit()
+        Application.Exit()
     End Sub
 End Class
