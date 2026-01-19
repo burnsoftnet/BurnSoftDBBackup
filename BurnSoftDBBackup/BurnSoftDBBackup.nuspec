@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+	<metadata>
+		<id>BurnSoftDBRestore</id>
+		<version>4.11.1.10</version>
+		<title>$title$</title>
+		<authors>burnsoftnet</authors>
+		<owners>burnsoftnet</owners>
+		<projectUrl>https://github.com/burnsoftnet/BurnSoftDBBackup.git</projectUrl>
+		<repository type="git" url="https://github.com/burnsoftnet/BurnSoftDBBackup.git" />
+		<iconUrl>https://avatars0.githubusercontent.com/u/24593581?s=460</iconUrl>
+		<icon>icon.png</icon>
+		<license type="expression">MIT</license>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>The BurnSoftDBBackup is the Main make up program that I use to copy the database from the selected drive to it's local destination.</description>
+		<releaseNotes>Initial Release.</releaseNotes>
+		<copyright>$copyright$</copyright>
+		<frameworkReferences>
+			<group targetFramework=".NETFramework4.7.2">
+				<frameworkReference name=".NETFramework4.7.2" />
+			</group>
+		</frameworkReferences>
+		<dependencies>
+			<group targetFramework=".NETFramework4.7.2" />
+		</dependencies>
+		<tags>burnsoft main, MyGunCollection MGC, MyLoadersLog, MLL, Database Backup, DBBackup</tags>
+	</metadata>
+	<files>
+		<file src="icon.png" target="" />
+		<file src="bin/$configuration$/DBBackup.exe.config" target="content/DBBackup.exe.config" />
+		<file src="bin/$configuration$/DBBackup.exe" target="content/DBBackup.exe" />
+		<file src="bin/$configuration$/DBBackup.exe.config" target="lib/net472/" />
+		<file src="bin/$configuration$/DBBackup.exe" target="lib/net472/" />
+	</files>
+</package>
