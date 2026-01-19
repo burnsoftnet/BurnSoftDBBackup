@@ -12,13 +12,13 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("BurnSoft Database Backup Utility")> 
 <Assembly: AssemblyCompany("BurnSoft ( www.burnsoft.net )")> 
 <Assembly: AssemblyProduct("BurnSoft Database Backup")>
-<Assembly: AssemblyCopyright("Copyright © BurnSoft 2009 - 2021")>
+<Assembly: AssemblyCopyright("Copyright © BurnSoft 2009 - 2026")>
 <Assembly: AssemblyTrademark("BurnSoft, www.burnsoft.net, www.burnsoft.org")> 
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("32c171e4-d1eb-40d5-b51f-b07b3dc208a2")> 
+<Assembly: Guid("32c171e4-d1eb-40d5-b51f-b07b3dc208a2")>
 
 ' Version information for an assembly consists of the following four values:
 '
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("4.11.0.*")> 
-<Assembly: AssemblyFileVersion("4.11.0.0")> 
+<Assembly: AssemblyVersion("4.11.1.10")>
+<Assembly: AssemblyFileVersion("4.11.1.10")>
