@@ -29,7 +29,7 @@
 		<file src="icon.png" target="" />
 		<file src="bin/$configuration$/DBBackup.exe.config" target="content/DBBackup.exe.config" />
 		<file src="bin/$configuration$/DBBackup.exe" target="content/DBBackup.exe" />
-		<file src="bin/$configuration$/DBBackup.exe.config" target="lib/net472/" />
-		<file src="bin/$configuration$/DBBackup.exe" target="lib/net472/" />
+		<file src="bin/$configuration$/DBBackup.exe.config" target="lib/net481/" />
+		<file src="bin/$configuration$/DBBackup.exe" target="lib/net481/" />
 	</files>
 </package>
