@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package >
 	<metadata>
-		<id>BurnSoftDBRestore</id>
+		<id>BurnSoftDBBackup</id>
 		<version>4.11.1.10</version>
 		<title>$title$</title>
 		<authors>burnsoftnet</authors>
