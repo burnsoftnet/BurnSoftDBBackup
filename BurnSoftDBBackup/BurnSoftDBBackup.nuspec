@@ -2,7 +2,7 @@
 <package >
 	<metadata>
 		<id>BurnSoftDBBackup</id>
-		<version>4.11.1.10</version>
+		<version>4.12.2.11</version>
 		<title>$title$</title>
 		<authors>burnsoftnet</authors>
 		<owners>burnsoftnet</owners>
@@ -16,12 +16,12 @@
 		<releaseNotes>Initial Release.</releaseNotes>
 		<copyright>$copyright$</copyright>
 		<frameworkReferences>
-			<group targetFramework=".NETFramework4.7.2">
-				<frameworkReference name=".NETFramework4.7.2" />
+			<group targetFramework=".NETFramework4.8.1">
+				<frameworkReference name=".NETFramework4.8.1" />
 			</group>
 		</frameworkReferences>
 		<dependencies>
-			<group targetFramework=".NETFramework4.7.2" />
+			<group targetFramework=".NETFramework4.8.1" />
 		</dependencies>
 		<tags>burnsoft main, MyGunCollection MGC, MyLoadersLog, MLL, Database Backup, DBBackup</tags>
 	</metadata>

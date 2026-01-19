@@ -26,6 +26,10 @@ The **MainAppName** will be the title of the application, while the **DBName** w
   
 ## Release Log
 
+### v4.12.2.11
+
+* Updated to use .net Framework v4.8.1
+
 ### v4.11.1.10
 
 * Created Nuget Package for use in other projects
